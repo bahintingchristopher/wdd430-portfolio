@@ -1,17 +1,6 @@
-"use client";
-
-import {useState, useEffect} from 'react';
-
-export default function Footer() {
-  const [year, setYear] = useState(new Date().getFullYear());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setYear(new Date().getFullYear());
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
+export default async function Footer() {
+  'use cache';
+  const year = new Date().getFullYear();
 
   return (
     <footer className="bg-gray-800 text-white py-4 mt-12">
