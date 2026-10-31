@@ -1,16 +1,28 @@
 import ProjectList from './components/ProjectList';
 const projects = [
   {
-    title: 'E-Commerce Dashboard',
-    description: 'A full-stack Next.js app for managing products.',
-    technologies: ['Next.js', 'React', 'TypeScript', 'Tailwind CSS'],
-    link: 'https://github.com/your-username/project1'
+    title: 'Bahins Auto Sales (WDD 330 Final Project)',
+    description: 'A responsive web application featuring vehicle listings, dynamic search filters, and shopping cart management.',
+    technologies: ['JavaScript (ES6+)', 'HTML5', 'CSS3', 'Vite', 'REST API'],
+    link: 'https://github.com/bahintingchristopher/WDD330-Final-Project-Bahins-Auto-Sales'
   },
   {
-    title: 'Weather Application',
-    description: 'A React app that fetches and displays weather data.',
-    technologies: ['React', 'JavaScript', 'CSS'],
-    link: 'https://github.com/your-username/project2'
+    title: 'Kizuna Rail Booking System',
+    description: 'A full-stack brownfield train trip reservation web application featuring schedule searches, user authentication, and booking management.',
+    technologies: ['Node.js', 'Express.js', 'MongoDB', 'Mongoose', 'EJS'],
+    link: 'https://github.com/jdethington/cse341-team-project'
+  },
+  {
+    title: 'Books & Inventory API',
+    description: 'A full-stack backend REST API service featuring complete CRUD operations, database persistence, and automated Swagger documentation.',
+    technologies: ['Node.js', 'Express.js', 'MongoDB Atlas', 'Swagger UI'],
+    link: 'https://github.com/bahintingchristopher/cse341_books'
+  },
+  {
+    title: 'GEC Cebu Reward App',
+    description: 'A fully offline, local-network student reward system featuring QR-code attendance logging, automated point awards, and a Flutter student PWA.',
+    technologies: ['Node.js', 'Express.js', 'SQLite', 'Flutter', 'Dart', 'PWA'],
+    link: 'https://github.com/bahintingchristopher/GEC-Cebu-Reward-App'
   }
 ];
 
