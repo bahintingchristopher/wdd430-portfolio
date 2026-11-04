@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import NavLinks from './NavLinks';
 
 export default function Header() {
   return (
@@ -7,12 +7,9 @@ export default function Header() {
         <div id="header-title" className="text-2xl font-bold ml-[20px]">
           Christopher T. Bahinting
         </div>
-        <nav className="mr-[20px]">
-          <ul className="flex gap-6">
-            <li><Link href="/">Home</Link></li>
-            <li><Link href="/about">About</Link></li>
-          </ul>
-        </nav>
+        <div className="mr-[20px]">
+          <NavLinks />
+        </div>
       </div>
     </header>
   );
