@@ -1,8 +1,7 @@
-import { Suspense } from 'react';
 import ProjectCard from '@/app/components/ProjectCard';
 import { getProjects } from '@/lib/projects-db';
 
-async function OpenSourceProjectsContent() {
+export default async function OpenSourceProjectsPage() {
   const projects = await getProjects('opensource');
 
   return (
@@ -21,13 +20,5 @@ async function OpenSourceProjectsContent() {
         </div>
       )}
     </main>
-  );
-}
-
-export default function OpenSourceProjectsPage() {
-  return (
-    <Suspense fallback={null}>
-      <OpenSourceProjectsContent />
-    </Suspense>
   );
 }
