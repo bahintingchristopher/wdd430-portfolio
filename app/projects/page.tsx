@@ -1,10 +1,22 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import ProjectCard from '@/app/components/ProjectCard';
-import { getProjects } from '@/lib/projects-db';
+import ProjectSearch from '@/app/components/ProjectSearch';
+import Pagination from '@/app/components/Pagination';
+import { fetchFilteredProjects, fetchProjectsPages } from '@/lib/projects-db';
 
-async function ProjectsContent() {
-  const projects = await getProjects();
+async function ProjectsContent(props: {
+  searchParams?: Promise<{ query?: string; page?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const rawQuery = typeof searchParams?.query === 'string' ? searchParams.query : '';
+  const query = rawQuery.trim().slice(0, 100);
+  const parsedPage = Number.parseInt(searchParams?.page ?? '1', 10);
+  const currentPage = Number.isFinite(parsedPage) && parsedPage > 0 ? parsedPage : 1;
+  const [projects, totalPages] = await Promise.all([
+    fetchFilteredProjects(query, currentPage),
+    fetchProjectsPages(query),
+  ]);
 
   return (
     <main>
@@ -42,6 +54,9 @@ async function ProjectsContent() {
       </ul>
       <section className="mt-8">
         <h2 className="text-2xl font-bold mb-4">All Projects</h2>
+        <div className="mb-6">
+          <ProjectSearch />
+        </div>
         {projects.length === 0 ? (
           <p className="text-gray-700">No projects found.</p>
         ) : (
@@ -51,15 +66,18 @@ async function ProjectsContent() {
             ))}
           </div>
         )}
+        <Pagination totalPages={totalPages} />
       </section>
     </main>
   );
 }
 
-export default function ProjectsPage() {
+export default function ProjectsPage(props: {
+  searchParams?: Promise<{ query?: string; page?: string }>;
+}) {
   return (
     <Suspense fallback={null}>
-      <ProjectsContent />
+      <ProjectsContent searchParams={props.searchParams} />
     </Suspense>
   );
 }
