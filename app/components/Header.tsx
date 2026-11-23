@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import NavLinks from './NavLinks';
 
 export default function Header() {
@@ -8,7 +9,9 @@ export default function Header() {
           Christopher T. Bahinting
         </div>
         <div className="mr-[20px]">
-          <NavLinks />
+          <Suspense fallback={null}>
+            <NavLinks />
+          </Suspense>
         </div>
       </div>
     </header>
