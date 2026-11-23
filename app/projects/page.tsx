@@ -12,6 +12,11 @@ async function ProjectsContent() {
       <p className="text-lg text-gray-700 mb-6">
         Browse the projects I have built, grouped by category.
       </p>
+      <div className="mb-6">
+        <Link href="/projects/create" className="bg-blue-600 text-white px-4 py-2 rounded">
+          New Project
+        </Link>
+      </div>
       <ul className="grid gap-4 md:grid-cols-2">
         <li>
           <Link
