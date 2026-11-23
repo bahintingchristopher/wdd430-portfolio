@@ -1,11 +1,17 @@
+import Link from 'next/link';
+import { deleteProject } from '@/app/lib/actions';
+
 interface ProjectCardProps {
+  id: number;
   title: string;
   description: string;
   technologies: string[];
   link?: string;
 }
-        
-export default function ProjectCard({title, description, technologies, link}: ProjectCardProps) {
+
+export default function ProjectCard({ id, title, description, technologies, link }: ProjectCardProps) {
+  const deleteProjectWithId = deleteProject.bind(null, String(id));
+
   return (
     <article className="p-4 border-l-4 border-blue-600 bg-white rounded">
       <h3 className="text-xl font-bold mb-2 text-black">{title}</h3>
@@ -18,6 +24,12 @@ export default function ProjectCard({title, description, technologies, link}: Pr
           <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View Project</a>
         </p>
       )}
+      <div className="mt-4 flex gap-3">
+        <Link href={`/projects/${id}/edit`} className="text-blue-600 hover:underline">Edit</Link>
+        <form action={deleteProjectWithId}>
+          <button type="submit" className="text-red-600 hover:underline">Delete</button>
+        </form>
+      </div>
     </article>
   );
 }

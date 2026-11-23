@@ -10,6 +10,21 @@ export interface Project {
   link?: string;
 }
 
+export interface ProjectInput {
+  title: string;
+  description: string;
+  technologies: string;
+  type: string;
+  link?: string;
+}
+
+function parseTechnologies(value: string): string[] {
+  return value
+    .split(',')
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 export async function getProjects(type?: string | null): Promise<Project[]> {
   if (type) {
     const { rows } = await sql<Project>`
@@ -26,4 +41,31 @@ export async function getProjectById(id: number): Promise<Project | null> {
     SELECT * FROM projects WHERE id = ${id}
   `;
   return rows[0] ?? null;
+}
+
+export async function createProjectRecord(data: ProjectInput) {
+  const technologies = parseTechnologies(data.technologies);
+  const link = data.link || null;
+  await sql`
+    INSERT INTO projects (title, description, technologies, type, link)
+    VALUES (${data.title}, ${data.description}, ${technologies as unknown as string}, ${data.type}, ${link})
+  `;
+}
+
+export async function updateProjectRecord(id: number, data: ProjectInput) {
+  const technologies = parseTechnologies(data.technologies);
+  const link = data.link || null;
+  await sql`
+    UPDATE projects
+    SET title = ${data.title},
+        description = ${data.description},
+        technologies = ${technologies as unknown as string},
+        type = ${data.type},
+        link = ${link}
+    WHERE id = ${id}
+  `;
+}
+
+export async function deleteProjectRecord(id: number) {
+  await sql`DELETE FROM projects WHERE id = ${id}`;
 }
