@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { signOut, useSession } from 'next-auth/react';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -11,6 +12,31 @@ const links = [
   { href: '/projects', label: 'Projects' },
 ];
 
+function AuthNavItem({ mobile = false }: { mobile?: boolean }) {
+  const { status } = useSession();
+  const className = mobile
+    ? 'block w-full rounded-md bg-white px-3 py-2 text-center text-blue-700 hover:bg-slate-100'
+    : 'rounded-md bg-white px-3 py-1 text-blue-700 hover:bg-slate-100';
+
+  return (
+    <li>
+      {status === 'authenticated' ? (
+        <button
+          type="button"
+          className={className}
+          onClick={() => signOut({ redirectTo: '/' })}
+        >
+          Sign Out
+        </button>
+      ) : (
+        <Link href="/login" className={className}>
+          Login
+        </Link>
+      )}
+    </li>
+  );
+}
+
 export default function NavLinks() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +44,7 @@ export default function NavLinks() {
   return (
     <>
       <nav aria-label="Primary" className="hidden md:block">
-        <ul className="flex gap-6">
+        <ul className="flex items-center gap-6">
           {links.map(({ href, label }) => {
             const isActive =
               href === '/'
@@ -37,6 +63,7 @@ export default function NavLinks() {
               </li>
             );
           })}
+          <AuthNavItem />
         </ul>
       </nav>
 
@@ -103,6 +130,7 @@ export default function NavLinks() {
                   </li>
                 );
               })}
+              <AuthNavItem mobile />
             </ul>
           </nav>
         )}

@@ -1,3 +1,4 @@
+// app/components/ProjectCard.tsx
 import Link from 'next/link';
 import { deleteProject } from '@/app/lib/actions';
 
@@ -7,9 +8,17 @@ interface ProjectCardProps {
   description: string;
   technologies: string[];
   link?: string;
+  showActions?: boolean;
 }
 
-export default function ProjectCard({ id, title, description, technologies, link }: ProjectCardProps) {
+export default function ProjectCard({
+  id,
+  title,
+  description,
+  technologies,
+  link,
+  showActions = false,
+}: ProjectCardProps) {
   const deleteProjectWithId = deleteProject.bind(null, String(id));
 
   return (
@@ -21,15 +30,32 @@ export default function ProjectCard({ id, title, description, technologies, link
       </p>
       {link && (
         <p className="mt-2">
-          <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">View Project</a>
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-600 hover:underline"
+          >
+            View Project
+          </a>
         </p>
       )}
-      <div className="mt-4 flex gap-3">
-        <Link href={`/projects/${id}/edit`} className="text-blue-600 hover:underline">Edit</Link>
-        <form action={deleteProjectWithId}>
-          <button type="submit" className="text-red-600 hover:underline">Delete</button>
-        </form>
-      </div>
+
+      {showActions && (
+        <div className="mt-4 flex gap-3">
+          <Link
+            href={`/dashboard/projects/${id}/edit`}
+            className="text-blue-600 hover:underline"
+          >
+            Edit
+          </Link>
+          <form action={deleteProjectWithId}>
+            <button type="submit" className="text-red-600 hover:underline">
+              Delete
+            </button>
+          </form>
+        </div>
+      )}
     </article>
   );
 }

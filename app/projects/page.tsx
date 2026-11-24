@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import ProjectCard from '@/app/components/ProjectCard';
-import { getProjects } from '@/lib/projects-db';
+import { getProjects } from '@/public/projects-db';
 
 async function ProjectsContent() {
   const projects = await getProjects();
@@ -13,7 +13,7 @@ async function ProjectsContent() {
         Browse the projects I have built, grouped by category.
       </p>
       <div className="mb-6">
-        <Link href="/projects/create" className="bg-blue-600 text-white px-4 py-2 rounded">
+        <Link href="/dashboard/projects/new" className="bg-blue-600 text-white px-4 py-2 rounded">
           New Project
         </Link>
       </div>
