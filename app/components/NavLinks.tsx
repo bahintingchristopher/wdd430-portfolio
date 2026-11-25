@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
@@ -13,10 +13,20 @@ const links = [
 ];
 
 function AuthNavItem({ mobile = false }: { mobile?: boolean }) {
-  const { status } = useSession();
+  const { status, update } = useSession();
+  const sessionRefreshAttempted = useRef(false);
   const className = mobile
     ? 'block w-full rounded-md bg-white px-3 py-2 text-center text-blue-700 hover:bg-slate-100'
     : 'rounded-md bg-white px-3 py-1 text-blue-700 hover:bg-slate-100';
+
+  useEffect(() => {
+    if (status === 'loading' || sessionRefreshAttempted.current) return;
+
+    sessionRefreshAttempted.current = true;
+    if (status === 'unauthenticated') {
+      void update();
+    }
+  }, [status, update]);
 
   return (
     <li>

@@ -1,6 +1,6 @@
 // app/components/ProjectCard.tsx
 import Link from 'next/link';
-import { deleteProject } from '@/app/lib/actions';
+import DeleteProjectButton from './DeleteProjectButton';
 
 interface ProjectCardProps {
   id: number;
@@ -19,8 +19,6 @@ export default function ProjectCard({
   link,
   showActions = false,
 }: ProjectCardProps) {
-  const deleteProjectWithId = deleteProject.bind(null, String(id));
-
   return (
     <article className="p-4 border-l-4 border-blue-600 bg-white rounded">
       <h3 className="text-xl font-bold mb-2 text-black">{title}</h3>
@@ -49,11 +47,7 @@ export default function ProjectCard({
           >
             Edit
           </Link>
-          <form action={deleteProjectWithId}>
-            <button type="submit" className="text-red-600 hover:underline">
-              Delete
-            </button>
-          </form>
+          <DeleteProjectButton projectId={id} />
         </div>
       )}
     </article>

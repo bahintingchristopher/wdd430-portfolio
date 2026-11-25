@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import ProjectList from '@/app/components/ProjectList';
-import { SignOutButton } from '@/app/components/sign-out-button';
 import { getProjects } from '@/app/lib/data';
 
 export default async function DashboardProjectsPage() {
@@ -10,8 +9,8 @@ export default async function DashboardProjectsPage() {
     <main className="container mx-auto px-4 py-12">
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-900">Manage Projects</h1>
-          <p className="mt-2 text-slate-600">
+          <h1 className="text-3xl text-white font-bold text-slate-900">Manage Projects</h1>
+          <p className="mt-2 text-white text-slate-600">
             Create, edit, or delete the projects shown on your portfolio.
           </p>
         </div>
@@ -23,7 +22,6 @@ export default async function DashboardProjectsPage() {
           >
             New Project
           </Link>
-          <SignOutButton />
         </div>
       </div>
 

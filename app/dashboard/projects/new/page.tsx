@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { createProject } from '@/app/lib/actions';
 
 export default function Page() {
@@ -61,12 +62,20 @@ export default function Page() {
           <input id="link" name="link" className={fieldClassName} />
         </div>
 
-        <button
-          type="submit"
-          className="justify-self-start rounded-lg bg-blue-600 px-5 py-2 font-semibold text-white transition hover:bg-blue-700"
-        >
-          Save Project
-        </button>
+        <div className="flex gap-3">
+          <button
+            type="submit"
+            className="rounded-lg bg-blue-600 px-5 py-2 font-semibold text-white transition hover:bg-blue-700"
+          >
+            Save Project
+          </button>
+          <Link
+            href="/dashboard/projects"
+            className="rounded-lg border border-slate-300 px-5 py-2 font-semibold text-slate-700 transition hover:bg-slate-50"
+          >
+            Cancel
+          </Link>
+        </div>
       </form>
     </main>
   );
