@@ -1,5 +1,10 @@
+import type { Metadata } from 'next';
 import ProjectCard from '@/app/components/ProjectCard';
 import { getProjects } from '@/public/projects-db';
+
+export const metadata: Metadata = {
+  title: 'Open Source',
+};
 
 export default async function OpenSourceProjectsPage() {
   const projects = await getProjects('opensource');

@@ -17,11 +17,6 @@ export const authConfig = {
         return false; // redirects to /login
       }
 
-      // Redirect already-logged-in users away from the login page
-      if (isLoggedIn && nextUrl.pathname === '/login') {
-        return Response.redirect(new URL('/dashboard/projects', nextUrl));
-      }
-
       return true;
     },
   },

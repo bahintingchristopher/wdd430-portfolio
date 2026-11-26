@@ -6,12 +6,14 @@ export default function Page() {
     'w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100';
 
   return (
-    <main className="container mx-auto px-4 py-12">
-      <h1 className="mb-6 text-3xl font-bold text-slate-900">Create Project</h1>
+    <main className="container mx-auto flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center px-4 py-12">
+      <h1 className="mb-6 text-center text-3xl font-bold text-slate-900">
+        Create Project
+      </h1>
 
       <form
         action={createProject}
-        className="grid max-w-2xl gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
+        className="grid w-full max-w-2xl gap-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
       >
         <div className="grid gap-2">
           <label htmlFor="title" className="font-medium text-slate-800">

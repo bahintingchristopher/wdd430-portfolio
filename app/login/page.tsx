@@ -1,6 +1,22 @@
+import { Suspense } from 'react';
+import { redirect } from 'next/navigation';
+import { auth } from '@/auth';
 import { LoginForm } from '@/app/components/login-form';
 
 export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginPageContent />
+    </Suspense>
+  );
+}
+
+async function LoginPageContent() {
+  const session = await auth();
+  if (session?.user) {
+    redirect('/dashboard/projects');
+  }
+
   return (
     <main className="flex items-center justify-center bg-[#06172f] md:h-screen">
       <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">

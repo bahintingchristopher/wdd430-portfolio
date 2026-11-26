@@ -4,7 +4,7 @@
 import { z } from 'zod';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { auth, signIn } from '@/auth';
+import { auth, signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import {
   createProjectRecord,
@@ -37,6 +37,10 @@ export async function authenticate(
     }
     throw error;
   }
+}
+
+export async function signOutUser() {
+  await signOut({ redirectTo: '/' });
 }
 
 const ProjectFormSchema = z.object({

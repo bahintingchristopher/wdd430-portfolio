@@ -1,15 +1,17 @@
 'use client';
 
-import { signOut } from 'next-auth/react';
+import { signOutUser } from '@/app/lib/actions';
 
-export function SignOutButton() {
+export function SignOutButton({
+  className = 'rounded-lg bg-white px-4 py-2 font-medium text-blue-700 shadow-sm transition hover:bg-slate-100',
+}: {
+  className?: string;
+}) {
   return (
-    <button
-      type="button"
-      className="rounded-lg bg-white px-4 py-2 font-medium text-blue-700 shadow-sm transition hover:bg-slate-100"
-      onClick={() => signOut({ redirectTo: '/' })}
-    >
-      Sign Out
-    </button>
+    <form action={signOutUser}>
+      <button type="submit" className={className}>
+        Sign Out
+      </button>
+    </form>
   );
 }

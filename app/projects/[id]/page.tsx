@@ -1,16 +1,46 @@
 // app/projects/[id]/page.tsx
-import { Suspense } from 'react';
+import { cache, Suspense } from 'react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { getProjectById } from '@/public/projects-db';
 
 type ProjectDetailPageProps = {
   params: Promise<{ id: string }>;
 };
 
+const getProject = cache((id: string) => getProjectById(Number(id)));
+
+export async function generateMetadata(
+  { params }: ProjectDetailPageProps,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
+  const { id } = await params;
+  const project = await getProject(id);
+
+  if (!project) {
+    return {
+      title: 'Project Not Found',
+      description: 'The requested portfolio project could not be found.',
+    };
+  }
+
+  const previousImages = (await parent).openGraph?.images ?? [];
+
+  return {
+    title: project.title,
+    description: project.description,
+    openGraph: {
+      title: project.title,
+      description: project.description,
+      images: previousImages,
+    },
+  };
+}
+
 async function ProjectDetailContent({ params }: ProjectDetailPageProps) {
   const { id } = await params;
-  const project = await getProjectById(Number(id));
+  const project = await getProject(id);
 
   if (!project) {
     notFound();
