@@ -1,5 +1,11 @@
-// lib/projects-db.ts
 import { sql } from '@vercel/postgres';
+
+export interface AuthUser {
+  id: string;
+  username: string;
+  name: string | null;
+  passwordHash: string;
+}
 
 export interface Project {
   id: number;
@@ -25,6 +31,17 @@ function parseTechnologies(value: string): string[] {
     .filter(Boolean);
 }
 
+export async function getUserByUsername(username: string): Promise<AuthUser | null> {
+  const { rows } = await sql<AuthUser>`
+    SELECT id::text AS id, username, name, password_hash AS "passwordHash"
+    FROM users
+    WHERE username = ${username}
+    LIMIT 1
+  `;
+
+  return rows[0] ?? null;
+}
+
 export async function getProjects(type?: string | null): Promise<Project[]> {
   if (type) {
     const { rows } = await sql<Project>`
@@ -37,6 +54,10 @@ export async function getProjects(type?: string | null): Promise<Project[]> {
 }
 
 export async function getProjectById(id: number): Promise<Project | null> {
+  if (!Number.isInteger(id) || id < 1) {
+    return null;
+  }
+
   const { rows } = await sql<Project>`
     SELECT * FROM projects WHERE id = ${id}
   `;

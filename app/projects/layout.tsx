@@ -18,14 +18,6 @@ export default function ProjectsLayout({
                 All Projects
               </Link>
             </li>
-            <li>
-              <Link
-                href="/projects/settings"
-                className="text-blue-600 hover:underline"
-              >
-                Settings
-              </Link>
-            </li>
           </ul>
         </nav>
       </div>

@@ -1,8 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { SignOutButton } from './sign-out-button';
 
 const links = [
   { href: '/', label: 'Home' },
@@ -11,6 +13,64 @@ const links = [
   { href: '/projects', label: 'Projects' },
 ];
 
+function AuthNavItem({
+  mobile = false,
+  pathname,
+  onNavigate,
+}: {
+  mobile?: boolean;
+  pathname: string;
+  onNavigate?: () => void;
+}) {
+  const { status, update } = useSession();
+  const sessionRefreshAttempted = useRef(false);
+  const isDashboardActive = pathname.startsWith('/dashboard');
+  const className = mobile
+    ? 'block w-full rounded-md bg-white px-3 py-2 text-center text-blue-700 hover:bg-slate-100'
+    : 'rounded-md bg-white px-3 py-1 text-blue-700 hover:bg-slate-100';
+
+  useEffect(() => {
+    if (status === 'loading' || sessionRefreshAttempted.current) return;
+
+    sessionRefreshAttempted.current = true;
+    if (status === 'unauthenticated') {
+      void update();
+    }
+  }, [status, update]);
+
+  return (
+    <>
+      {status === 'authenticated' && (
+        <li>
+          <Link
+            href="/dashboard/projects"
+            className={
+              mobile
+                ? `block py-2 ${isDashboardActive ? 'active' : ''}`
+                : isDashboardActive
+                  ? 'active'
+                  : ''
+            }
+            aria-current={isDashboardActive ? 'page' : undefined}
+            onClick={onNavigate}
+          >
+            Dashboard
+          </Link>
+        </li>
+      )}
+      <li>
+        {status === 'authenticated' ? (
+          <SignOutButton className={className} />
+        ) : (
+          <Link href="/login" className={className}>
+            Login
+          </Link>
+        )}
+      </li>
+    </>
+  );
+}
+
 export default function NavLinks() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +78,7 @@ export default function NavLinks() {
   return (
     <>
       <nav aria-label="Primary" className="hidden md:block">
-        <ul className="flex gap-6">
+        <ul className="flex items-center gap-6">
           {links.map(({ href, label }) => {
             const isActive =
               href === '/'
@@ -37,6 +97,7 @@ export default function NavLinks() {
               </li>
             );
           })}
+          <AuthNavItem pathname={pathname} />
         </ul>
       </nav>
 
@@ -103,6 +164,11 @@ export default function NavLinks() {
                   </li>
                 );
               })}
+              <AuthNavItem
+                mobile
+                pathname={pathname}
+                onNavigate={() => setIsOpen(false)}
+              />
             </ul>
           </nav>
         )}
